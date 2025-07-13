@@ -62,7 +62,7 @@ class EmployeeController extends Controller
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/employee', $filename);
+                $image->storeAs('employee', $filename);
             }
 
             Employee::create([
@@ -89,12 +89,12 @@ class EmployeeController extends Controller
     {
         try {
             if ($request->hasFile('image')) {
-                if ($employee->image && Storage::exists('public/employee/' . $employee->image)) {
-                    Storage::delete('public/employee/' . $employee->image);
+                if ($employee->image && Storage::exists('employee/' . $employee->image)) {
+                    Storage::delete('employee/' . $employee->image);
                 }
 
-                $imageName = uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
-                $request->file('image')->storeAs('public/employee', $imageName);
+                $imageName = Str::uuid() . '.' . $request->file('image')->getClientOriginalExtension();
+                $request->file('image')->storeAs('employee', $imageName);
                 $employee->image = $imageName;
             }
 
